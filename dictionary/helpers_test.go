@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"layeh.com/radius/dictionary"
+	"github.com/sneakywombat/radius/dictionary"
 )
 
 func TestMerge(t *testing.T) {

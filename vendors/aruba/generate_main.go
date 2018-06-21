@@ -10,8 +10,8 @@ import (
 	"log"
 	"net/http"
 
-	"layeh.com/radius/dictionary"
-	"layeh.com/radius/dictionarygen"
+	"github.com/sneakywombat/radius/dictionary"
+	"github.com/sneakywombat/radius/dictionarygen"
 )
 
 func main() {

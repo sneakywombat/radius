@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"layeh.com/radius"
+	"github.com/sneakywombat/radius"
 )
 
 func TestParseAttributes_invalid(t *testing.T) {

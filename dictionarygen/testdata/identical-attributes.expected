@@ -3,7 +3,7 @@
 package main
 
 import (
-	"layeh.com/radius"
+	"github.com/sneakywombat/radius"
 )
 
 const (

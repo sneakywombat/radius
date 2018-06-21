@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	dict "layeh.com/radius/dictionary"
+	dict "github.com/sneakywombat/radius/dictionary"
 )
 
 func TestParser(t *testing.T) {

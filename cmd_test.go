@@ -12,7 +12,7 @@ func Test_cmd_radiusdictgen(t *testing.T) {
 
 	name := tempFile(t)
 	defer os.Remove(name)
-	output, err := exec.Command("go", "build", "-o", name, "layeh.com/radius/cmd/radius-dict-gen").CombinedOutput()
+	output, err := exec.Command("go", "build", "-o", name, "github.com/sneakywombat/radius/cmd/radius-dict-gen").CombinedOutput()
 	if err != nil {
 		t.Fatalf("%s\n", output)
 	}
@@ -23,7 +23,7 @@ func Test_cmd_radserver(t *testing.T) {
 
 	name := tempFile(t)
 	defer os.Remove(name)
-	output, err := exec.Command("go", "build", "-o", name, "layeh.com/radius/cmd/radserver").CombinedOutput()
+	output, err := exec.Command("go", "build", "-o", name, "github.com/sneakywombat/radius/cmd/radserver").CombinedOutput()
 	if err != nil {
 		t.Fatalf("%s\n", output)
 	}
@@ -34,7 +34,7 @@ func Test_cmd_radtest(t *testing.T) {
 
 	name := tempFile(t)
 	defer os.Remove(name)
-	output, err := exec.Command("go", "build", "-o", name, "layeh.com/radius/cmd/radtest").CombinedOutput()
+	output, err := exec.Command("go", "build", "-o", name, "github.com/sneakywombat/radius/cmd/radtest").CombinedOutput()
 	if err != nil {
 		t.Fatalf("%s\n", output)
 	}
