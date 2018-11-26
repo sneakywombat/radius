@@ -64,6 +64,7 @@ func Parse(b, secret []byte) (*Packet, error) {
 		Identifier: b[1],
 		Secret:     secret,
 		Attributes: attrs,
+		RawPacket:  b,
 	}
 	copy(packet.Authenticator[:], b[4:20])
 	return packet, nil
