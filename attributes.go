@@ -14,6 +14,9 @@ const TypeInvalid Type = -1
 // Attributes is a map of RADIUS attribute types to slice of Attributes.
 type Attributes map[Type][]Attribute
 
+// OrderedAttributeTypes are raw, from the wire, decoded Attributes.
+type OrderedAttributeTypes []Type
+
 // ParseAttributes parses the wire-encoded RADIUS attributes and returns a new
 // Attributes value. An error is returned if the buffer is malformed.
 func ParseAttributes(b []byte) (Attributes, error) {
@@ -36,6 +39,24 @@ func ParseAttributes(b []byte) (Attributes, error) {
 		}
 		attrs[typ] = append(attrs[typ], value)
 
+		b = b[length:]
+	}
+
+	return attrs, nil
+}
+
+func ParseAttributesInOrder(b []byte) (OrderedAttributeTypes, error) {
+	attrs := OrderedAttributeTypes{}
+
+	for len(b) > 0 {
+		if len(b) < 2 {
+			return nil, errors.New("short buffer")
+		}
+		length := int(b[1])
+		if length > len(b) || length < 2 || length > 253 {
+			return nil, errors.New("invalid attribute length")
+		}
+		attrs = append(attrs, Type(b[0]))
 		b = b[length:]
 	}
 

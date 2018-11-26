@@ -18,6 +18,7 @@ type Packet struct {
 	Authenticator [16]byte
 	Secret        []byte
 	Attributes
+	RawPacket []byte
 }
 
 // New creates a new packet with the Code, Secret fields set to the given
