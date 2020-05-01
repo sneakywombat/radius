@@ -6,6 +6,9 @@ import (
 	"net"
 	"sync"
 	"sync/atomic"
+	"syscall"
+
+	"golang.org/x/sys/unix"
 )
 
 type packetResponseWriter struct {
@@ -251,4 +254,45 @@ func (s *PacketServer) Shutdown(ctx context.Context) error {
 	case <-ctx.Done():
 		return ctx.Err()
 	}
+}
+
+// ListenAndServe starts a RADIUS server on the address given in s.
+func (s *PacketServer) ListenAndServeWithPortReuse() error {
+	if s.Handler == nil {
+		return errors.New("radius: nil Handler")
+	}
+	if s.SecretSource == nil {
+		return errors.New("radius: nil SecretSource")
+	}
+
+	addrStr := ":1812"
+	if s.Addr != "" {
+		addrStr = s.Addr
+	}
+
+	network := "udp"
+	if s.Network != "" {
+		network = s.Network
+	}
+
+	lc := net.ListenConfig{
+		Control: func(network, address string, c syscall.RawConn) error {
+			var opErr error
+			err := c.Control(func(fd uintptr) {
+				opErr = unix.SetsockoptInt(int(fd), unix.SOL_SOCKET, unix.SO_REUSEPORT, 1)
+			})
+			if err != nil {
+				return err
+			}
+			return opErr
+		},
+	}
+
+	lp, err := lc.ListenPacket(context.Background(), network, addrStr)
+	if err != nil {
+		return errors.New("failed to start packet listener")
+	}
+
+	defer lp.Close()
+	return s.Serve(lp)
 }
